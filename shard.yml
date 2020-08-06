@@ -1,0 +1,11 @@
+name: crystallix
+version: 0.1.0
+
+authors:
+  - Alexander Vinogradov ~> vk.com/vinogradov.sasha || t.me/sasha_vinogradov
+
+targets:
+  crystallix:
+    main: src/crystallix.cr
+
+crystal: 0.35.1

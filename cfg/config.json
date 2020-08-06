@@ -1,0 +1,14 @@
+{
+  "port": 80,
+  "address": "0.0.0.0",
+  "addons": {
+    "php": "/usr/bin/php-cgi"
+  },
+  "ssl": {
+    "use?": false,
+    "port": 443,
+    "_comment": "use cfg/cert/ for no conflicts",
+    "chain": "cfg/ssl/chain.crt",
+    "key": "cfg/ssl/private.key"
+  }
+}

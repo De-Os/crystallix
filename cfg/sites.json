@@ -1,0 +1,11 @@
+{
+  "@": {
+    "_comment": "Use absolute path (/./..) or Crystallix will use its folder as path. Dont use '/' at the end of path",
+    "path": "pages/tests",
+    "index": ["index.php", "index.html"],
+    "errors": {
+      "_comment": "%site_path% tells Crystallix to use current site path",
+      "404": "%site_path%/errors/404.html"
+    }
+  }
+}
