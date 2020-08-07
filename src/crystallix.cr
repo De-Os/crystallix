@@ -29,6 +29,9 @@ require "./**"
     def self.generateServer
       HTTP::Server.new do |context|
         context.response.headers["Content-Type"] = "text/html; charset=UTF-8"
+        context.response.headers["Server"] = "Crystallix"
+        context.response.headers["Date"] = Time.local.to_s
+
         request = context.request
         headers = request.headers
         resource = request.resource.includes?('?') ? request.resource.split('?')[0] : request.resource
@@ -80,7 +83,7 @@ require "./**"
               exec += "export #{var}='#{value}'\n"
             end
             exec += cmd["end"] if cmd["end"]?
-            exec += CONFIG["addons"][ext].as_s
+            exec += ext == "crweb" ? "./#{file}" : CONFIG["addons"][ext].as_s
 
             response = `#{exec}`.gsub("\r\n", "\n")
             response.split("\n").each do |header|
@@ -98,12 +101,16 @@ require "./**"
 
         context.response.status_code = context.response.headers["Status"].split(" ")[0].to_i if context.response.headers["Status"]?
 
-        context.response.status_code = 308 if context.response.headers["Location"]?
-
         if context.response.status_code != 200 && SITES[sitename]["errors"]? && SITES[sitename]["errors"]["#{context.response.status_code}"]?
           file = SITES[sitename]["errors"]["#{context.response.status_code}"].as_s.gsub("%site_path%", SITES[sitename]["path"].as_s)
-          context.response.print(File.exists?(file) ? File.read(file) : "#{context.response.status_code}")
+          if SITES[sitename]["errors"]["redirect"]? && SITES[sitename]["errors"]["redirect"].as_bool && File.exists?(file)
+            context.response.headers["Location"] = SITES[sitename]["errors"]["#{context.response.status_code}"].as_s.gsub("%site_path%", "")
+          else
+            context.response.print(File.exists?(file) ? File.read(file) : "#{context.response.status_code}")
+          end
         end
+
+        context.response.status_code = 308 if context.response.headers["Location"]?
 
         context.response.close
       end

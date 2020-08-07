@@ -4,6 +4,7 @@
     "path": "pages/tests",
     "index": ["index.php", "index.html"],
     "errors": {
+      "redirect": true,
       "_comment": "%site_path% tells Crystallix to use current site path",
       "404": "%site_path%/errors/404.html"
     }
