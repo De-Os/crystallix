@@ -1,6 +1,5 @@
 require "http"
 require "json"
-require "./**"
 
   module CRYSTALLIX
     CONFIG = JSON.parse(File.read("cfg/config.json"))
@@ -28,7 +27,6 @@ require "./**"
 
     def self.generateServer
       HTTP::Server.new do |context|
-        context.response.headers["Content-Type"] = "text/html; charset=UTF-8"
         context.response.headers["Server"] = "Crystallix"
         context.response.headers["Date"] = Time.local.to_s
 
@@ -109,6 +107,8 @@ require "./**"
             context.response.print(File.exists?(file) ? File.read(file) : "#{context.response.status_code}")
           end
         end
+
+        context.response.headers["Content-Type"] = MIME.from_filename(file) + "; charset=UTF-8" if !context.response.headers["Content-Type"]? && MIME.from_filename?(file)
 
         context.response.status_code = 308 if context.response.headers["Location"]?
 

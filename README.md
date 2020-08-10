@@ -7,6 +7,10 @@ Also, it gives you abilty to build pages using Crystal executables (See **crweb*
 ## Installation
 
 * Download release package (https://github.com/De-Os/crystallix/releases) and extract into empty folder
+```bash
+cc crystallix.o -o crystallix  -rdynamic -L/usr/bin/../lib/crystal/lib -lz `command -v pkg-config > /dev/null && pkg-config --libs --silence-errors libssl || printf %s '-lssl -lcrypto'` `command -v pkg-config > /dev/null && pkg-config --libs --silence-errors libcrypto || printf %s '-lcrypto'` -lpcre -lm -lgc -lpthread /usr/share/crystal/src/ext/libcrystal.a -levent -lrt -ldl
+```
+
 * Or build it yourself:
   1. `git clone https://github.com/De-Os/crystallix`
   2. `cd crystallix`
@@ -17,6 +21,11 @@ Also, it gives you abilty to build pages using Crystal executables (See **crweb*
 Just run
 ```bash
 ./crystallix
+```
+
+If you use release package and have any issues like missing shared libraries execute in Crystallix folder:
+```bash
+cc crystallix.o -o crystallix  -rdynamic -L/usr/bin/../lib/crystal/lib -lz `command -v pkg-config > /dev/null && pkg-config --libs --silence-errors libssl || printf %s '-lssl -lcrypto'` `command -v pkg-config > /dev/null && pkg-config --libs --silence-errors libcrypto || printf %s '-lcrypto'` -lpcre -lm -lgc -lpthread /usr/share/crystal/src/ext/libcrystal.a -levent -lrt -ldl
 ```
 
 ## Configs
